@@ -5,6 +5,7 @@
 @inject IDbContextFactory<ITHelpDeskV_3.Data.ITHelpDeskV_3Context> DbFactory
 @inject NavigationManager NavigationManager
 
+<PageTitle>SignUp Page</PageTitle>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,17 +18,17 @@
         <div class="container ">
             <h2 class="text-center">Signup Page</h2>
         </div> 
+
+        <EditForm method="post" Model="UserLogin" OnValidSubmit="LoginCheck" FormName="create" Enhance >
         <div class="imgcontainer">
             <img src="Images/img_avatar2.png" alt="Avatar" class="avatar" style="width:200px">
         </div>
-
         <div class="container">
-            <EditForm method="post" Model="UserLogin" OnValidSubmit="LoginCheck" FormName="create" Enhance >
                 <DataAnnotationsValidator />
                 <ValidationSummary class="text-danger" role="alert" />
                 <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
-                    <InputText id="name" @bind-Value="UserLogin.Name" class="form-control w-90 " />
+                    <InputText id="name" @bind-Value="UserLogin.Name" class="form-control container " />
                     <ValidationMessage For="() => UserLogin.Name" class="text-danger" />
                 </div>
                 <div class="mb-3">
@@ -52,13 +53,13 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Create</button>
 
-            </EditForm>  
         </div>
+        </EditForm>  
 
-        <div class="container2" style="background-color:#f1f1f1">
-            <button type="button" class="cancelbtn">Cancel</button>
-            <span class="psw">Forgot <a href="#">password?</a></span>
-        </div>
+        @* <div class="container2" style="background-color:#f1f1f1"> *@
+        @*     <button type="button" class="cancelbtn">Cancel</button> *@
+        @*     <span class="psw">Forgot <a href="#">password?</a></span> *@
+        @* </div> *@
 
     </div>
 
