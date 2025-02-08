@@ -1,0 +1,67 @@
+﻿@page "/userlogins/delete"
+@using Microsoft.EntityFrameworkCore
+@using ITHelpDeskV_3.Model
+@inject IDbContextFactory<ITHelpDeskV_3.Data.ITHelpDeskV_3Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>UserLogin</h2>
+    <hr />
+    @if (userlogin is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@userlogin.Name</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Email</dt>
+            <dd class="col-sm-10">@userlogin.Email</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Password</dt>
+            <dd class="col-sm-10">@userlogin.Password</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Type</dt>
+            <dd class="col-sm-10">@userlogin.Type</dd>
+        </dl>
+        <EditForm method="post" Model="userlogin" OnValidSubmit="DeleteUserLogin" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(userlogin is null)">Delete</button> |
+            <a href="/userlogins">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private UserLogin? userlogin;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        userlogin = await context.UserLogin.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (userlogin is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteUserLogin()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.UserLogin.Remove(userlogin!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/userlogins");
+    }
+}

@@ -1,0 +1,52 @@
+﻿@page "/userlogins/details"
+@using Microsoft.EntityFrameworkCore
+@using ITHelpDeskV_3.Model
+@inject IDbContextFactory<ITHelpDeskV_3.Data.ITHelpDeskV_3Context> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>UserLogin</h2>
+    <hr />
+    @if (userlogin is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@userlogin.Name</dd>
+            <dt class="col-sm-2">Email</dt>
+            <dd class="col-sm-10">@userlogin.Email</dd>
+            <dt class="col-sm-2">Password</dt>
+            <dd class="col-sm-10">@userlogin.Password</dd>
+            <dt class="col-sm-2">Type</dt>
+            <dd class="col-sm-10">@userlogin.Type</dd>
+        </dl>
+        <div>
+            <a href="@($"/userlogins/edit?id={userlogin.Id}")">Edit</a> |
+            <a href="@($"/userlogins")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private UserLogin? userlogin;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        userlogin = await context.UserLogin.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (userlogin is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

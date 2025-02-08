@@ -1,0 +1,39 @@
+﻿@page "/userlogins"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using ITHelpDeskV_3.Model
+@using ITHelpDeskV_3.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<ITHelpDeskV_3.Data.ITHelpDeskV_3Context> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="userlogins/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.UserLogin">
+    <PropertyColumn Property="userlogin => userlogin.Name" />
+    <PropertyColumn Property="userlogin => userlogin.Email" />
+    <PropertyColumn Property="userlogin => userlogin.Password" />
+    <PropertyColumn Property="userlogin => userlogin.Type" />
+
+    <TemplateColumn Context="userlogin">
+        <a href="@($"userlogins/edit?id={userlogin.Id}")">Edit</a> |
+        <a href="@($"userlogins/details?id={userlogin.Id}")">Details</a> |
+        <a href="@($"userlogins/delete?id={userlogin.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private ITHelpDeskV_3Context context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
