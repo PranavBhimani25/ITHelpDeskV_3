@@ -1,5 +1,5 @@
 ﻿@layout Layout.LoginAndSignupLayout
-@page "/userlogins/signup"
+@page "/signup"
 @using Microsoft.EntityFrameworkCore
 @using ITHelpDeskV_3.Model
 @inject IDbContextFactory<ITHelpDeskV_3.Data.ITHelpDeskV_3Context> DbFactory
@@ -28,23 +28,23 @@
                 <ValidationSummary class="text-danger" role="alert" />
                 <div class="mb-3">
                     <label for="name" class="form-label">Name:</label>
-                    <InputText id="name" @bind-Value="UserLogin.Name" class="form-control container " />
+                    <InputText id="name" @bind-Value="UserLogin.Name" placeholder="Name" class="form-control" style="width : 94%" />
                     <ValidationMessage For="() => UserLogin.Name" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email:</label>
-                    <InputText id="email" @bind-Value="UserLogin.Email" class="form-control" />
+                    <InputText id="email" @bind-Value="UserLogin.Email" placeholder="Email" class="form-control" style="width : 94%" />
                     <ValidationMessage For="() => UserLogin.Email" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password:</label>
-                    <InputText id="password" @bind-Value="UserLogin.Password" class="form-control" />
+                    <InputText id="password" @bind-Value="UserLogin.Password" placeholder="Password" class="form-control" style="width : 94%" />
                     <ValidationMessage For="() => UserLogin.Password" class="text-danger" />
                 </div>
                 <div class="mb-3">
                     <label for="type" class="form-label">Type:</label>
                     @* <InputText id="type" @bind-Value="UserLogin.Type" class="form-control" /> *@
-                    <select id="type" @bind="UserLogin.Type" class="form-control">
+                    <select id="type" @bind="UserLogin.Type" class="form-control" style="width : 94%">
                         <option  Value="Eng">Engineer</option>
                         <option  Value="Cust">customer</option Value="Admin">
                         <option>Admin</option>
@@ -56,10 +56,7 @@
         </div>
         </EditForm>  
 
-        @* <div class="container2" style="background-color:#f1f1f1"> *@
-        @*     <button type="button" class="cancelbtn">Cancel</button> *@
-        @*     <span class="psw">Forgot <a href="#">password?</a></span> *@
-        @* </div> *@
+        
 
     </div>
 
@@ -75,13 +72,13 @@
         </script>
     }
 
-
-
 </body>
 </html>
-
-
-
+<div class="container shadow" style="background-color:white">
+    <div class="container2" style="background-color:#f1f1f1; padding-top:0px"> 
+            <a href="/login" class="link-primary">Login Page</a>
+    </div> 
+</div>
 
 
 @code {

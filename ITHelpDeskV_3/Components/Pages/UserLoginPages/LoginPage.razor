@@ -1,8 +1,92 @@
-﻿@page "/"
+﻿@page "/login"
+@layout Layout.LoginAndSignupLayout
+@using Microsoft.EntityFrameworkCore
+@using ITHelpDeskV_3.Model
+@using ITHelpDeskV_3.Data
+@inject IDbContextFactory<ITHelpDeskV_3.Data.ITHelpDeskV_3Context> DbFactory
+@inject NavigationManager NavigationManager
 
 <PageTitle>Login Page</PageTitle>
-<h3>LoginPage</h3>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="CSS/Login.css" rel="stylesheet" />
+</head>
+<body>
+    <div class=" container shadow mt-5 ">
+
+        <div class="container ">
+            <h2 class="text-center">Login Page</h2>
+        </div> 
+
+        <EditForm method="post" Model="UserLogin" OnValidSubmit="LoginCheck" FormName="create" Enhance >
+            <div class="imgcontainer">
+                <img src="Images/img_avatar2.png" alt="Avatar" class="avatar" style="width:200px">
+            </div>
+            <div class="container">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="text-danger" role="alert" />
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <InputText type="text" id="email" @bind-Value="textboxemail" placeholder="Email" class="form-control" style="width : 94%" />
+                    <ValidationMessage For="() => UserLogin.Email" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <InputText type="password" id="password" @bind-Value="textboxpassword" placeholder="Password" class="form-control" style="width : 94%" />
+                    <ValidationMessage For="() => UserLogin.Password" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit </button>
+
+            </div>
+        </EditForm>  
+
+
+
+    </div>
+
+</body>
+</html>
+
+<div class="container shadow" style="background-color:white">
+
+    <div class="container2" style="background-color:#f1f1f1">
+
+        <NavLink href="/signup">Signup Page</NavLink>
+        @* <button @onclick="GoToSecondPage">Go to Second Page</button> *@
+
+        <div>
+            <span class="link-primary ">Forgot <a href="#" class="link-primary">password?</a></span>
+        </div>
+    </div>
+</div>
+
+@* <a href="signup">Click me</a> *@
 
 @code {
+    [SupplyParameterFromForm]
+    private UserLogin UserLogin { get; set; } = new();
 
+    private string textboxemail { get; set; }
+    private string textboxpassword { get; set; }
+
+    private ITHelpDeskV_3Context context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+
+    private async Task LoginCheck(){
+        if(textboxemail != null && textboxpassword != null){
+            if(textboxemail == ){
+                Console.WriteLine(UserLogin.Email);
+            }
+        }
+    }    
 }
